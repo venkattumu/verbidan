@@ -1,13 +1,10 @@
 <?php 
     if(isset($_POST['submit'])){
-        // print_r($_POST);
+        
+
+
         $name = $_POST['name'];
         $email = $_POST['email'];
-
-        
-        
-
-
 
         if(isset($_POST['singing'])){
             $singing = "Singing, ";
@@ -92,7 +89,7 @@
     <div class="container mt-2">
         <div class="row">
             <div class="col-12 bg-dark">
-                <form class="p-5 text-light" id="courseInputForm" method="post" action="#">
+                <form class="p-5 text-light" id="courseInputForm" method="post" action="#" enctype="multipart/form-data">
                     <h3 class="text-info mb-4">Task Form</h3>
                     <div class="form-group">
                       <label for="Sname" > Name</label>
