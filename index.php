@@ -3,34 +3,73 @@
         // print_r($_POST);
         $name = $_POST['name'];
         $email = $_POST['email'];
-        $comment = $_POST['comment'];
+
+        
+        
+
+
 
         if(isset($_POST['singing'])){
-            $singing = "Singing";
+            $singing = "Singing, ";
         }
         if(isset($_POST['dancing'])){
-            $dancing = "Dancing";
+            $dancing = "Dancing, ";
         }
         if(isset($_POST['indoor'])){
-            $indoor = "Indoor Games";
+            $indoor = "Indoor Games, ";
         }
         if(isset($_POST['outdoor'])){
-            $outdoor = "Outdoor Games";
+            $outdoor = "Outdoor Games, ";
         }
         if(isset($_POST['others'])){
-            $others = "others";
+            $others = "others, ";
         }
 
+        $hobbies = '';
 
-        $con = mysqli_connect('localhost', 'root', '', 'verbidan');
-
-        $sql = "INSERT INTO `data`(`id`, `name`, `email`, `hobbies`, `comments`)
-                VALUES (null, '$name', '$email', '$hobbies', '$comment')";
-        if(mysqli_query($con, $sql)){
-            echo "data submittted successfuly";
-        } else {
-            echo "data not submitted";
+        if(isset($singing) || isset($dancing) || isset($indoor) || isset($outdoor)|| isset($others) ){
+            $hobbies .= $singing . $dancing . $indoor . $outdoor . $others;
+            if(isset($dancing) && isset($indoor) && isset($outdoor) && isset($others) ){
+                $hobbies .= $dancing . $indoor . $outdoor . $others;
+                if(isset($indoor) && isset($outdoor) && isset($others) ){
+                    $hobbies .= $indoor . $outdoor . $others;
+                    if(isset($outdoor) && isset($others) ){
+                        $hobbies .= $outdoor . $others;
+                        if(isset($others) ){
+                            $hobbies .=  $others;
+                        }
+                    }
+                }
+            }
         }
+     
+        // if(strlen($_POST['comment']) <= 100){
+        //     $error = "comment length should not be lessthan 100 characters";
+           
+        // }
+        // else {
+            $comment = $_POST['comment'];
+            
+            $con = mysqli_connect('localhost', 'root', '', 'verbidan');
+
+            $sql = "INSERT INTO `data`(`id`, `name`, `email`, `hobbies`, `comments`)
+                    VALUES (null, '$name', '$email', '$hobbies', '$comment')";
+            if(mysqli_query($con, $sql)){
+        
+                header('Location: data.php');
+            } else {
+                echo "data not submitted";
+            }
+        // }
+                
+
+
+
+        // echo $hobbies;  
+        
+        // if(isset)
+
+
 
     }
 ?>
@@ -57,12 +96,30 @@
                     <h3 class="text-info mb-4">Task Form</h3>
                     <div class="form-group">
                       <label for="Sname" > Name</label>
-                      <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+                      <input type="text" class="form-control" id="name" name="name" placeholder="Name" onfocusout="myFunction()" required>
+                      <span id="nameInput" class="text-success"></span>
                     </div>
+                    <script>
+                        function myFunction() {
+                        var x = document.getElementById("name");
+                        var val = document.getElementById("nameInput"); 
+                        val.innerHTML = "Welcome To Our Site " + x.value;
+                        }
+                    </script>
+                  
                     <div class="form-group">
                         <label for="Cname" >Email</label>
-                        <input type="text" class="form-control" id="email" name="email" placeholder="Enter Your Email">
+                        <input type="text" class="form-control" id="email" name="email" placeholder="Enter Your Email" onfocusout="myFunc()" required>
+                        <span id="emailInput" class="text-success"></span>
                     </div>
+                    <script>
+                        function myFunc() {
+                        var x = document.getElementById("email");
+                        var val = document.getElementById("emailInput"); 
+                        val.innerHTML = "So You Use " + x.value + ", Nice!";
+                        }
+                    </script>
+
                     <div class="form-group">
                         <label for="Cname" >Hobbies</label>                  
                     </div>
@@ -88,7 +145,8 @@
                     </div> 
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Example textarea</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" name="comment"></textarea>
+                        <textarea class="form-control" id="comment" rows="2" name="comment"> Enter Your Comment</textarea>
+                        <span class="text-danger"><?php if(isset($error)){echo $error; } ?></span>
                     </div>
                     <button type="submit" name="submit" class="btn btn-primary">Submit</button>
                   </form>
