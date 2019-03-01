@@ -1,62 +1,98 @@
+<?php 
+    if(isset($_POST['submit'])){
+        // print_r($_POST);
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $comment = $_POST['comment'];
+
+        if(isset($_POST['singing'])){
+            $singing = "Singing";
+        }
+        if(isset($_POST['dancing'])){
+            $dancing = "Dancing";
+        }
+        if(isset($_POST['indoor'])){
+            $indoor = "Indoor Games";
+        }
+        if(isset($_POST['outdoor'])){
+            $outdoor = "Outdoor Games";
+        }
+        if(isset($_POST['others'])){
+            $others = "others";
+        }
+
+
+        $con = mysqli_connect('localhost', 'root', '', 'verbidan');
+
+        $sql = "INSERT INTO `data`(`id`, `name`, `email`, `hobbies`, `comments`)
+                VALUES (null, '$name', '$email', '$hobbies', '$comment')";
+        if(mysqli_query($con, $sql)){
+            echo "data submittted successfuly";
+        } else {
+            echo "data not submitted";
+        }
+
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>localstorage</title>
+    <title>Verbidan Task</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body onload="fetchDetail()">
 
     <div class="jumbotron container mt-3 bg-info text-light text-center">
-        <h1 class="display-4">Student Page</h1>
-        <p class="lead">Course Name</p>                
+        <h1 class="display-4">Verbidan Task</h1>                    
     </div>
 
     <div class="container mt-2">
         <div class="row">
-            <div class="col-md-6 bg-dark">
-                <form class="p-5 text-light" id="courseInputForm">
-                    <h3 class="text-info mb-4">Student Registration Form</h3>
+            <div class="col-12 bg-dark">
+                <form class="p-5 text-light" id="courseInputForm" method="post" action="#">
+                    <h3 class="text-info mb-4">Task Form</h3>
                     <div class="form-group">
-                      <label for="Sname" >Student Name</label>
-                      <input type="text" class="form-control" id="Sname" placeholder="Student Name">
+                      <label for="Sname" > Name</label>
+                      <input type="text" class="form-control" id="name" name="name" placeholder="Name">
                     </div>
                     <div class="form-group">
-                        <label for="Cname" >Course Name</label>
-                        <input type="text" class="form-control" id="Cname" placeholder="Course Name">
-                      </div>
-                    <div class="form-group">
-                      <label for="Cnumber">Course Number</label>
-                      <input type="text" class="form-control" id="Cnumber" placeholder="Course Number">
+                        <label for="Cname" >Email</label>
+                        <input type="text" class="form-control" id="email" name="email" placeholder="Enter Your Email">
                     </div>
                     <div class="form-group">
-                        <label for="room">Room</label>
-                        <input type="text" class="form-control" id="room" placeholder="Room Number">
-                      </div>                    
-                    <button type="submit" class="btn btn-primary" onclick="addCourse()">Register</button>
+                        <label for="Cname" >Hobbies</label>                  
+                    </div>
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1" name="singing">
+                        <label class="form-check-label" for="exampleCheck1">Singing</label>
+                    </div>
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1" name="dancing">
+                        <label class="form-check-label" for="exampleCheck1">Dancing</label>
+                    </div> 
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1" name="indoor">
+                        <label class="form-check-label" for="exampleCheck1">Indoor Games</label>
+                    </div>                    
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1" name="outdoor">
+                        <label class="form-check-label" for="exampleCheck1">Outdoor Games</label>
+                    </div> 
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1" name="others">
+                        <label class="form-check-label" for="exampleCheck1">others</label>
+                    </div> 
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Example textarea</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" name="comment"></textarea>
+                    </div>
+                    <button type="submit" name="submit" class="btn btn-primary">Submit</button>
                   </form>
-            </div>
-            <div class="col-md-6 bg-light ">
-                <button id="clear" class="btn btn-danger float-right m-2" onclick="clearData()">Clear Data</button>
-                <table class="table table-bordered mt-2" id="enrolled">
-                        <thead >
-                          <tr class="table-danger" id="titleRow">
-                            <th scope="col" >Student Name</th>
-                            <th scope="col">Course Name</th>
-                            <th scope="col">Course No.</th>
-                            <th scope="col">Room No.</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr id="cell1"></tr>
-                          <tr id="cell2"></tr>
-                          <tr id="cell3"></tr>
-                          <tr id="cell4"></tr>
-                      </tbody>
-                </table>
-            </div>
+            </div>        
         </div>
     </div>
     
